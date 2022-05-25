@@ -18,11 +18,24 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        signingConfigs {
+            storeFile file('../Trusper.jks')
+            storePassword 'Trusper'
+            keyAlias 'Trusper'
+            keyPassword 'Trusper'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signingConfigs
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signingConfigs
         }
     }
     compileOptions {
@@ -46,6 +59,10 @@ android {
             variant.outputs.all {
                 outputFileName = "Trusper_${defaultConfig.versionName}.apk"
             }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
@@ -95,4 +112,8 @@ dependencies {
     implementation 'io.github.scwang90:refresh-header-classics:2.0.5'
     // BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    // PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    // Banner
+    implementation 'io.github.youth5201314:banner:2.2.2'
 }

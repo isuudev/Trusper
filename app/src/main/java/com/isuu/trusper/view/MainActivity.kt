@@ -67,10 +67,6 @@ class MainActivity : BaseRefreshActivity<FlowEntity, FlowAdapter>() {
                 }
             }
         }
-
-        binding.addImageButton.setOnClickListener {
-            adapter.addHeaderView(emptyView())
-        }
     }
 
     override fun initRecyclerView() {

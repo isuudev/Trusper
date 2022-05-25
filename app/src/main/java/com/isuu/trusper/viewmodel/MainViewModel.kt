@@ -42,8 +42,8 @@ class MainViewModel @Inject constructor(private val api: Api) : ViewModel() {
         for (position in data.indices) {
             if (flowSort(position)) {
                 data[position].itemType = BANNER_ITEM_TYPE_VIEW
-                data[position].banners.add("https://cdn.cnn.com/cnnnext/dam/assets/201215085238-taylor-swift-2020-sundance-super-tease.jpg")
-                data[position].banners.add("https://www.stylist.co.uk/images/app/uploads/2022/05/19115759/taylor-swift-4-crop-1652960822-1349x707.jpg?w=1680&amp;h=880&amp;fit=max&amp;auto=format%2Ccompress")
+                data[position].banners.add(data[position].url)
+                data[position].banners.add(data[position].url)
             }
         }
         return data
