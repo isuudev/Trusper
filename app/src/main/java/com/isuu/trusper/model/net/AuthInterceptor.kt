@@ -12,7 +12,7 @@ class AuthInterceptor : Interceptor {
         private const val HEADER_HOST = "X-RapidAPI-Host"
         private const val HEADER_KEY = "X-RapidAPI-Key"
         private const val HOST_VALUE = "contextualwebsearch-websearch-v1.p.rapidapi.com"
-        private const val KEY_VALUE = "0e9439aa32msh697656698fb33c0p1df924jsn333889b22e30"
+        private const val KEY_VALUE = "4d13c80f13mshe578bd16a435227p1c13c2jsn23cefafcbaf5"
     }
 
     private fun addTokenParams(request: Request): Request {
