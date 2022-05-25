@@ -19,18 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val api: Api) : ViewModel() {
 
-    private lateinit var bannerData: FlowEntity
-
-    private lateinit var bannerList: MutableList<FlowEntity>
-
-    private val bannerImages: List<String> = arrayListOf<String>().apply {
-        "http://cache.umusic.com/_sites/_halo/taylorswift/images/meta-image.jpg"
-        "https://cdn.cnn.com/cnnnext/dam/assets/201215085238-taylor-swift-2020-sundance-super-tease.jpg"
-        "https://pmcvariety.files.wordpress.com/2018/10/taylor_swift.png?w=979"
-    }
-
-    private val _initFlowList = MutableLiveData<List<FlowEntity>>()
-    val initFlowList: LiveData<List<FlowEntity>>
+    private val _initFlowList = MutableLiveData<BaseEntity<List<FlowEntity>>>()
+    val initFlowList: LiveData<BaseEntity<List<FlowEntity>>>
         get() = _initFlowList
 
     fun initFlowList(pageIndex: Int, pageSize: Int) = viewModelScope.launch {
@@ -39,34 +29,24 @@ class MainViewModel @Inject constructor(private val api: Api) : ViewModel() {
             api.apiFlowList(pageIndex, pageSize)
         }
 
-        if (result.value != null && result.value.isNotEmpty()) {
-
-            val flowMutableList: MutableList<FlowEntity> = arrayListOf()
-
-            val flowEntityList = result.value
-            bannerList = flowEntityList.toMutableList()
-            bannerData = flowEntityList[0]
-
-            for (position in result.value.indices) {
-                bannerData = result.value[0]
-                if (position % 3 == 0) {
-                    result.value[position].itemType = BANNER_ITEM_TYPE_VIEW
-                    result.value[position].banners = bannerImages
-                    flowMutableList.add(result.value[position])
-                    result.value[position].itemType = NORMAL_ITEM_TYPE_VIEW
-                    flowMutableList.add(result.value[position])
-                } else {
-                    result.value[position].itemType = NORMAL_ITEM_TYPE_VIEW
-                    flowMutableList.add(result.value[position])
-                }
-            }
-
-            _initFlowList.value = flowMutableList
-
-        }
-
+        _initFlowList.value = result
 
     }
 
+    fun flowSort(position: Int): Boolean {
+        val p = position + 1
+        return p % 3 == 0
+    }
+
+    fun convertData(data: List<FlowEntity>): List<FlowEntity> {
+        for (position in data.indices) {
+            if (flowSort(position)) {
+                data[position].itemType = BANNER_ITEM_TYPE_VIEW
+                data[position].banners.add("https://cdn.cnn.com/cnnnext/dam/assets/201215085238-taylor-swift-2020-sundance-super-tease.jpg")
+                data[position].banners.add("https://www.stylist.co.uk/images/app/uploads/2022/05/19115759/taylor-swift-4-crop-1652960822-1349x707.jpg?w=1680&amp;h=880&amp;fit=max&amp;auto=format%2Ccompress")
+            }
+        }
+        return data
+    }
 
 }

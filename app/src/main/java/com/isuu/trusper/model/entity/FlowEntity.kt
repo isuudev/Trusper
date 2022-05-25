@@ -10,7 +10,7 @@ data class FlowEntity(
     val height: Int,
     val imageWebSearchUrl: String,
     val name: String,
-    val provider: ProviderEntity,
+    val provider: ProviderEntity?,
     val thumbnail: String,
     val thumbnailHeight: Int,
     val thumbnailWidth: Int,
@@ -19,6 +19,6 @@ data class FlowEntity(
     val webpageUrl: String,
     val width: Int,
     override var itemType: Int = NORMAL_ITEM_TYPE_VIEW,
-    var banners: List<String>?
+    var banners: MutableList<String> = arrayListOf()
 ) : MultiItemEntity
 

@@ -5,17 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="200dp">
 
-    <com.youth.banner.Banner
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/itemBannerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="200dp" />
 
-    <com.zhengsr.viewpagerlib.indicator.RectIndicator
-        android:id="@+id/itemBannerIndicatorView"
-        android:layout_width="match_parent"
-        android:layout_height="2.8dp"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/dp_10"
-        app:rect_normalColor="#80FFFFFF"
-        app:rect_selectedColor="@color/white" />
 </FrameLayout>

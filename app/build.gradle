@@ -95,10 +95,4 @@ dependencies {
     implementation 'io.github.scwang90:refresh-header-classics:2.0.5'
     // BaseRecyclerViewAdapterHelper
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
-    // ImageSelector
-    implementation 'io.github.lucksiege:pictureselector:v2.7.3-rc10'
-    // Indicator
-    implementation 'com.github.LillteZheng.ViewPagerHelper:viewpagerlibx:v2.9'
-    // Banner
-    implementation 'io.github.youth5201314:banner:2.2.2'
 }

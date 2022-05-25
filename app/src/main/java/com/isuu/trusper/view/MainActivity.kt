@@ -1,26 +1,19 @@
 package com.isuu.trusper.view
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.ToastUtils
 import com.isuu.trusper.R
 import com.isuu.trusper.base.BaseRefreshActivity
 import com.isuu.trusper.base.DefaultLoadingDialog
 import com.isuu.trusper.databinding.ActivityMainBinding
 import com.isuu.trusper.model.entity.FlowEntity
 import com.isuu.trusper.model.net.response
-import com.isuu.trusper.utils.GRID_SPACING
-import com.isuu.trusper.utils.NORMAL_PAGE_INDEX
-import com.isuu.trusper.utils.NORMAL_PAGE_SIZE
-import com.isuu.trusper.utils.SPAN_COUNT
+import com.isuu.trusper.utils.*
 import com.isuu.trusper.view.adapter.FlowAdapter
 import com.isuu.trusper.view.recyclerview.GridSpacingItemDecoration
 import com.isuu.trusper.viewmodel.MainViewModel
@@ -57,18 +50,20 @@ class MainActivity : BaseRefreshActivity<FlowEntity, FlowAdapter>() {
 
     private fun observeFlowList() {
         loadingView.show()
-        viewModel.initFlowList.observe(this) { data ->
+        viewModel.initFlowList.observe(this) { result ->
             loadingView.hide()
-            when {
-                data == null -> {
-                    adapter.setEmptyView(emptyView())
-                    onFetchSuccess(arrayListOf())
-                }
-                data.isNotEmpty() -> {
-                    onFetchSuccess(data)
-                }
-                else -> {
-                    onFetchFailure()
+            response(result) { data ->
+                when {
+                    data == null -> {
+                        adapter.setEmptyView(emptyView())
+                        onFetchSuccess(arrayListOf())
+                    }
+                    data.isNotEmpty() -> {
+                        onFetchSuccess(viewModel.convertData(data))
+                    }
+                    else -> {
+                        onFetchFailure()
+                    }
                 }
             }
         }
@@ -92,11 +87,10 @@ class MainActivity : BaseRefreshActivity<FlowEntity, FlowAdapter>() {
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                val p = position + 1
-                if (p % 3 == 0) {
-                    return 2
+                if (viewModel.flowSort(position)) {
+                    return BANNER_ITEM_TYPE_VIEW
                 }
-                return 1
+                return NORMAL_ITEM_TYPE_VIEW
             }
         }
     }

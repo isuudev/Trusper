@@ -4,18 +4,14 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.LifecycleOwner
-import com.blankj.utilcode.util.ScreenUtils
+import androidx.viewpager2.widget.ViewPager2
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.isuu.trusper.R
 import com.isuu.trusper.model.entity.FlowEntity
 import com.isuu.trusper.model.gilde.GlideApp
 import com.isuu.trusper.utils.BANNER_ITEM_TYPE_VIEW
-import com.isuu.trusper.utils.IMAGE_MARGIN_NORMAL_VALUE
 import com.isuu.trusper.utils.NORMAL_ITEM_TYPE_VIEW
-import com.youth.banner.Banner
-import com.zhengsr.viewpagerlib.bean.RectBean
-import com.zhengsr.viewpagerlib.indicator.RectIndicator
 
 class FlowAdapter :
     BaseMultiItemQuickAdapter<FlowEntity, FlowAdapter.FlowViewHolder>() {
@@ -72,29 +68,11 @@ class FlowAdapter :
             holder: FlowViewHolder,
             item: FlowEntity
         ) {
-            val itemBannerView = holder.getView<View>(R.id.itemBannerView) as Banner<*, *>
-            val itemBannerIndicatorView =
-                holder.getView<RectIndicator>(R.id.itemBannerIndicatorView)
-
+            val itemBannerView = holder.getView<ViewPager2>(R.id.itemBannerView)
             val images = item.banners
-            val imageSize = images?.size ?: 0
-            val screenWidth = ScreenUtils.getScreenWidth()
             val bannerImageAdapter = BannerImagesAdapter(images)
-            itemBannerView.startPosition = 0
-            itemBannerView.addBannerLifecycleObserver(owner)
-                .setAdapter(bannerImageAdapter)
-            itemBannerView.isAutoLoop(false)
-            //indicator view
-            val rectBean = RectBean()
-            //set rect width size
-            rectBean.width =
-                (screenWidth - (IMAGE_MARGIN_NORMAL_VALUE * (imageSize + 1))) / imageSize
-            //add rect bean config data
-            itemBannerIndicatorView.addRectBean(rectBean)
-            itemBannerIndicatorView.addPagerData(
-                imageSize,
-                itemBannerView.viewPager2
-            )
+            itemBannerView.adapter = bannerImageAdapter
+
         }
     }
 }

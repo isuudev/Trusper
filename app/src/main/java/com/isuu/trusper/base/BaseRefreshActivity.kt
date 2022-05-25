@@ -8,7 +8,7 @@ abstract class BaseRefreshActivity<M, A : BaseQuickAdapter<M, *>> : AppCompatAct
     RefreshExtension<M, A> {
     private var requestPage = 1
 
-    override var limit: Int = 10
+    override var limit: Int = 12
     override var currentPage: Int = 1
 
     override fun onContentChanged() {
